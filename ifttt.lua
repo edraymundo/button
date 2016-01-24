@@ -1,34 +1,31 @@
 --ifttt.lua
+gpio.write(green,gpio.HIGH)
 
 function file_exists(name)
    fileresult=file.open(name,"r")
-   print(fileresult)
    if fileresult~=nil then file.close(fileresult) return true else return false end
 end
 
+function get_string(name)
+    str = 'test'
+    if file_exists(name..".txt") then
+        file.open(name..".txt", "r" )
+        str = file.read()
+        str = string.gsub(str, "%s+", "")
+        file.close()
+    end 
+    return str
+end
 
 function sendmesg ()
     keyid = 0
     eventname = 0
     conn = nil
     conn=net.createConnection(net.TCP, 0) 
-    if file_exists("keyid.txt") then
-        file.open("keyid.txt", "r" )
-        keyid = file.read()
-        keyid = string.gsub(keyid, "%s+", "")
-        file.close()
-        print("IFTTT keyid: "..keyid)
-    end    
-    --print("IFTTT Maker Key: "..iftttKey)
 
-    if file_exists("eventname.txt") then
-        file.open( "eventname.txt", "r" )
-        eventname = file.read()
-        eventname = string.gsub(eventname, "%s+", "")
-        file.close()
-        print("IFTTT Event Name: "..eventname)
-    end    
-
+    keyid = get_string("keyid") 
+    eventname = get_string("eventname")
+  
   --bbrY8InVQ4qwP0fdfgn7cK
     conn:on("connection", function(conn, payload) 
          conn:send("GET /trigger/"..eventname.."/with/key/"..keyid
@@ -43,7 +40,7 @@ function sendmesg ()
         print(payload)
         print('Posted to ifttt.com')           
         print("Going to deep sleep...")
-        conn:close()       
+        conn:close()  
         node.dsleep(0)
     end)
     conn:connect(80,'maker.ifttt.com')
