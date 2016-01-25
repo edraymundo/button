@@ -1,3 +1,4 @@
+require ('helper')
 
 tmr.alarm(3, 200, 1, function()
     if value == gpio.LOW then
@@ -5,36 +6,8 @@ tmr.alarm(3, 200, 1, function()
     else
         value = gpio.LOW
     end
-
     gpio.write(2, value)
 end)
-
-
--- URL decode function
-function unescape (s)
-   s = string.gsub(s, "+", " ")
-   s = string.gsub(s, "%%(%x%x)", function (h)
-         return string.char(tonumber(h, 16))
-       end)
-   return s
-end
-
-function file_exists(name)
-   fileresult=file.open(name,"r")
-   if fileresult~=nil then file.close(fileresult) return true else return false end
-end
-
-function get_string(name)
-    str = 'test'
-    if file_exists(name..".txt") then
-        file.open(name..".txt", "r" )
-        str = file.read()
-        str = string.gsub(str, "%s+", "")
-        file.close()
-        print("Return String "..str)
-    end 
-    return str
-end
 
 --setwifi.lua
 print("Entering wifi setup..")
@@ -70,8 +43,8 @@ srv:listen(80,function(conn)
         local _GET = {}
         if (vars ~= nil) then
             for name, value in string.gfind(vars, "([^&=]+)=([^&=]+)") do
-              name = unescape(name)
-              value = unescape(value)
+              name = helper.unescape(name)
+              value = helper.unescape(value)
               _GET[name] = value
               print(name)
               print(value)
@@ -88,13 +61,13 @@ srv:listen(80,function(conn)
             buf = buf.."<h1>CallMeButton Wifi Configuration</h1>"
             buf = buf.."<form action='' method='get'>"
             buf = buf.."<table cellpadding=5 cellspacing=5><tr><td align=left>SSID:</td> "
-            buf = buf.."<td><input type='text' id='ssid' name='ssid' value='"..get_string('ssid').."' maxlength='300' size='30px' placeholder='required' required /></td>"
+            buf = buf.."<td><input type='text' id='ssid' name='ssid' value='"..helper.get_string('ssid').."' maxlength='300' size='30px' placeholder='required' required /></td>"
             buf = buf.."</tr><tr><td align=left>Password:</td> "
-            buf = buf.."<td><input type='text' id='password' name='password' value='"..get_string('password').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."<td><input type='text' id='password' name='password' value='"..helper.get_string('password').."' maxlength='300' size='30px' placeholder='required' required/></td>"
             buf = buf.."</tr><tr><td align=left>Key Id (ifftt.com):</td> "
-            buf = buf.."<td><input type='text' id='keyid' name='keyid' value='"..get_string('keyid').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."<td><input type='text' id='keyid' name='keyid' value='"..helper.get_string('keyid').."' maxlength='300' size='30px' placeholder='required' required/></td>"
             buf = buf.."</tr><tr><td align=left>Event Name (ifttt.com): </td>"
-            buf = buf.."<td><input type='text' id='eventname' name='eventname' value='"..get_string('eventname').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."<td><input type='text' id='eventname' name='eventname' value='"..helper.get_string('eventname').."' maxlength='300' size='30px' placeholder='required' required/></td>"
             buf = buf.."</tr><tr><td>&nbsp;</td><td><input type='submit' value='Submit' style='height: 25px; width: 130px;'/></td>"
             buf = buf.."</table></body></html>"    
         elseif (vars ~= nil) then
@@ -102,37 +75,42 @@ srv:listen(80,function(conn)
             client:send(restarting);
             client:close(); 
             if (_GET.ssid) then       
-                --save key id in text file
-                file.remove("keyid.txt")
-                tmr.delay(2000)
-                file.open("keyid.txt", "w")
-                file.write(_GET.keyid)
-                file.flush()
-                file.close()
+                --save values to text file
+                helper.set_value("keyid.txt",_GET.keyid)
+                helper.set_value("eventname.txt",_GET.eventname)
+                helper.set_value("ssid.txt",_GET.ssid)
+                helper.set_value("password.txt",_GET.password)
+                
+                --file.remove("keyid.txt")
+                --tmr.delay(2000)
+                --file.open("keyid.txt", "w")
+                --file.write(_GET.keyid)
+                --file.flush()
+                --file.close()
                 
                 --save event in text file
-                file.remove("eventname.txt")
-                tmr.delay(2000)
-                file.open("eventname.txt", "w")
-                file.write(_GET.eventname)
-                file.flush()
-                file.close()
+                --file.remove("eventname.txt")
+                --tmr.delay(2000)
+                --file.open("eventname.txt", "w")
+                --file.write(_GET.eventname)
+                --file.flush()
+                --file.close()
 
                 --save ssid in text file
-                file.remove("ssid.txt")
-                tmr.delay(2000)
-                file.open("ssid.txt", "w")
-                file.write(_GET.ssid)
-                file.flush()
-                file.close()
+                --file.remove("ssid.txt")
+                --tmr.delay(2000)
+                --file.open("ssid.txt", "w")
+                --file.write(_GET.ssid)
+                --file.flush()
+                --file.close()
                 
                 --save password in text file
-                file.remove("password.txt")
-                tmr.delay(1000)
-                file.open("password.txt", "w")
-                file.write(_GET.password)
-                file.flush()
-                file.close()                
+                --file.remove("password.txt")
+                --tmr.delay(1000)
+                --file.open("password.txt", "w")
+                --file.write(_GET.password)
+                --file.flush()
+                --file.close()                
                                 
                 print("Setting SSID: ".. _GET.ssid)
                 print("password: ".. _GET.password)

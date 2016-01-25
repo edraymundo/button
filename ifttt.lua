@@ -1,21 +1,8 @@
 --ifttt.lua
+-- load helper module 
+require ('helper')
+
 gpio.write(green,gpio.HIGH)
-
-function file_exists(name)
-   fileresult=file.open(name,"r")
-   if fileresult~=nil then file.close(fileresult) return true else return false end
-end
-
-function get_string(name)
-    str = 'test'
-    if file_exists(name..".txt") then
-        file.open(name..".txt", "r" )
-        str = file.read()
-        str = string.gsub(str, "%s+", "")
-        file.close()
-    end 
-    return str
-end
 
 function sendmesg ()
     keyid = 0
@@ -23,8 +10,8 @@ function sendmesg ()
     conn = nil
     conn=net.createConnection(net.TCP, 0) 
 
-    keyid = get_string("keyid") 
-    eventname = get_string("eventname")
+    keyid = helper.get_string("keyid") 
+    eventname = helper.get_string("eventname")
   
   --bbrY8InVQ4qwP0fdfgn7cK
     conn:on("connection", function(conn, payload) 

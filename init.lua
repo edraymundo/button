@@ -1,23 +1,32 @@
  --init.lua
-wifi.setmode(wifi.STATION)
-cnt=0
 
--- LED
+-- load helper module 
+require ('helper')
+ 
+cnt=0
+-- LEDs
 red = 2
 green = 1
 
 gpio.mode(green, gpio.OUTPUT)
 gpio.mode(red, gpio.OUTPUT)
 
-gpio.write(green,gpio.LOW)
 gpio.write(red,gpio.HIGH)
 
+wifi.setmode(wifi.STATION)
 ipcfg={}
 ipcfg.ip="192.168.1.145"
 ipcfg.netmask="255.255.255.0"
 ipcfg.gateway="192.168.1.1"
 wifi.ap.setip(ipcfg)    
-wifi.setmode(wifi.STATION);
+
+ssid = helper.get_string("ssid") 
+password = helper.get_string("password")
+
+print("ssid:"..ssid)
+print("password:"..password)
+wifi.sta.config(ssid,password);
+wifi.sta.connect()
 
 --Go to deep sleep if you can't connect to Wifi
  tmr.alarm(1, 1000, 1, function()
@@ -33,7 +42,6 @@ wifi.setmode(wifi.STATION);
         gpio.write(red,gpio.LOW)
         tmr.stop(1)
         tmr.stop(2)
+        dofile("ifttt.lua")
     end  
  end)  
-
-dofile("ifttt.lua")
