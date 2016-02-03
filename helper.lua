@@ -24,7 +24,7 @@ function unescape (s)
 end
 
 function get_string(name)
-    str = 'test'
+    str = 'test123456'
     if file_exists(name..".txt") then
         file.open(name..".txt", "r" )
         str = file.read()
