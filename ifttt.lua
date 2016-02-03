@@ -2,6 +2,7 @@
 -- load helper module 
 require ('helper')
 
+gpio.write(red,gpio.LOW)
 gpio.write(green,gpio.HIGH)
 
 function sendmesg ()

@@ -8,10 +8,36 @@ cnt=0
 red = 2
 green = 1
 
+--setup button
+ap_button = 4
+
+function debounce (func)
+    local last = 0
+    local delay = 200000
+
+    return function (...)
+        local now = tmr.now()
+        if now - last < delay then return end
+
+        last = now
+        return func(...)
+    end
+end
+
+function onChange ()
+    tmr.stop(1) 
+    gpio.mode(ap_button,gpio.OUTPUT)
+    dofile("setwifi.lua")
+    tmr.stop(1) 
+end
+
+gpio.mode(ap_button,gpio.INT)
+
 gpio.mode(green, gpio.OUTPUT)
 gpio.mode(red, gpio.OUTPUT)
 
 gpio.write(red,gpio.HIGH)
+gpio.write(green,gpio.LOW)
 
 wifi.setmode(wifi.STATION)
 ipcfg={}
@@ -22,6 +48,8 @@ wifi.ap.setip(ipcfg)
 
 ssid = helper.get_string("ssid") 
 password = helper.get_string("password")
+
+gpio.trig(ap_button, "both", debounce(onChange))
 
 print("ssid:"..ssid)
 print("password:"..password)
@@ -41,7 +69,7 @@ wifi.sta.connect()
         print("Got IP:"..wifi.sta.getip())
         gpio.write(red,gpio.LOW)
         tmr.stop(1)
-        tmr.stop(2)
         dofile("ifttt.lua")
     end  
- end)  
+ end) 
+

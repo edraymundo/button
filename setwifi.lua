@@ -80,41 +80,10 @@ srv:listen(80,function(conn)
                 helper.set_value("eventname.txt",_GET.eventname)
                 helper.set_value("ssid.txt",_GET.ssid)
                 helper.set_value("password.txt",_GET.password)
-                
-                --file.remove("keyid.txt")
-                --tmr.delay(2000)
-                --file.open("keyid.txt", "w")
-                --file.write(_GET.keyid)
-                --file.flush()
-                --file.close()
-                
-                --save event in text file
-                --file.remove("eventname.txt")
-                --tmr.delay(2000)
-                --file.open("eventname.txt", "w")
-                --file.write(_GET.eventname)
-                --file.flush()
-                --file.close()
-
-                --save ssid in text file
-                --file.remove("ssid.txt")
-                --tmr.delay(2000)
-                --file.open("ssid.txt", "w")
-                --file.write(_GET.ssid)
-                --file.flush()
-                --file.close()
-                
-                --save password in text file
-                --file.remove("password.txt")
-                --tmr.delay(1000)
-                --file.open("password.txt", "w")
-                --file.write(_GET.password)
-                --file.flush()
-                --file.close()                
-                                
+                                                             
                 print("Setting SSID: ".. _GET.ssid)
                 print("password: ".. _GET.password)
-                tmr.alarm(4, 5000, 0, function()
+                tmr.alarm(4, 7000, 0, function()
                     print("setting wifi")
                     ipcfg={}
                     ipcfg.ip="192.168.1.145"
