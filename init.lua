@@ -1,4 +1,5 @@
  --init.lua
+collectgarbage();
 
 -- load helper module 
 require ('helper')
@@ -13,7 +14,7 @@ ap_button = 4
 
 function debounce (func)
     local last = 0
-    local delay = 200000
+    local delay = 300000
 
     return function (...)
         local now = tmr.now()
@@ -27,12 +28,10 @@ end
 function onChange ()
     tmr.stop(1) 
     gpio.mode(ap_button,gpio.OUTPUT)
-    dofile("setwifi.lua")
-    tmr.stop(1) 
+    dofile("setwifi.lua") 
 end
 
 gpio.mode(ap_button,gpio.INT)
-
 gpio.mode(green, gpio.OUTPUT)
 gpio.mode(red, gpio.OUTPUT)
 
@@ -49,12 +48,12 @@ wifi.ap.setip(ipcfg)
 ssid = helper.get_string("ssid") 
 password = helper.get_string("password")
 
-gpio.trig(ap_button, "both", debounce(onChange))
-
 print("ssid:"..ssid)
 print("password:"..password)
 wifi.sta.config(ssid,password);
 wifi.sta.connect()
+
+gpio.trig(ap_button, "both", debounce(onChange))
 
 --Go to deep sleep if you can't connect to Wifi
  tmr.alarm(1, 1000, 1, function()

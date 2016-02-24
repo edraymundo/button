@@ -20,7 +20,7 @@ cfg={}
 wifi.ap.config(cfg)
 
 ipcfg={}
-    ipcfg.ip="192.168.1.1"
+    ipcfg.ip="192.168.1.2"
     ipcfg.netmask="255.255.255.0"
     ipcfg.gateway="192.168.1.1"
 wifi.ap.setip(ipcfg)
