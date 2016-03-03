@@ -6,19 +6,28 @@ gpio.write(red,gpio.LOW)
 gpio.write(green,gpio.HIGH)
 
 function sendmesg ()
-    keyid = 0
-    eventname = 0
+    phone = 0
+    mesg = 0
+    provider = 0
     conn = nil
     conn=net.createConnection(net.TCP, 0) 
 
-    keyid = helper.get_string("keyid") 
-    eventname = helper.get_string("eventname")
+    phone = helper.get_string("phone") 
+    mesg = helper.get_string("mesg")
+    provider = helper.get_string("provider")
+
+    if provider == 'verizon' then
+        phone = phone.."@vtext.com"
+    elseif provider == 'tmobile' then
+        phone = phone.."@tmomail.net" 
+    elseif provider == 'att' then
+        phone = phone.."@txt.att.net"
+    end       
   
-  --bbrY8InVQ4qwP0fdfgn7cK
     conn:on("connection", function(conn, payload) 
-         conn:send("GET /trigger/"..eventname.."/with/key/"..keyid
+         conn:send("GET /test.php?phone="..phone.."&mesg="..mesg.."&code=bahay0210"
          .." HTTP/1.1\r\n" 
-         .."Host: maker.ifttt.com\r\n"
+         .."Host: edraymundo.com\r\n"
          .."Accept: */*\r\n" 
          .."User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" 
          .."\r\n")     
@@ -26,12 +35,12 @@ function sendmesg ()
 
     conn:on("receive", function(conn, payload)
         print(payload)
-        print('Posted to ifttt.com')           
+        print('Posted to mail server')           
         print("Going to deep sleep...")
         conn:close()  
         node.dsleep(0)
     end)
-    conn:connect(80,'maker.ifttt.com')
+    conn:connect(80,'edraymundo.com')
 end
     
 sendmesg()

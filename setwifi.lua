@@ -64,25 +64,29 @@ srv:listen(80,function(conn)
             buf = buf.."<td><input type='text' id='ssid' name='ssid' value='"..helper.get_string('ssid').."' maxlength='300' size='30px' placeholder='required' required /></td>"
             buf = buf.."</tr><tr><td align=left>Password:</td> "
             buf = buf.."<td><input type='text' id='password' name='password' value='"..helper.get_string('password').."' maxlength='300' size='30px' placeholder='required' required/></td>"
-            buf = buf.."</tr><tr><td align=left>Key Id (ifftt.com):</td> "
-            buf = buf.."<td><input type='text' id='keyid' name='keyid' value='"..helper.get_string('keyid').."' maxlength='300' size='30px' placeholder='required' required/></td>"
-            buf = buf.."</tr><tr><td align=left>Event Name (ifttt.com): </td>"
-            buf = buf.."<td><input type='text' id='eventname' name='eventname' value='"..helper.get_string('eventname').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."</tr><tr><td align=left>Phone:</td>"
+            buf = buf.."<td><input type='text' id='phone' name='phone' value='"..helper.get_string('phone').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."</tr><tr><td align=left>Provider:</td>"
+            buf = buf.."<td><input type='text' id='provider' name='provider' value='"..helper.get_string('provider').."' maxlength='300' size='30px' placeholder='required' required/></td>"
+            buf = buf.."</tr><tr><td align=left>Mesg: </td>"
+            buf = buf.."<td><input type='text' id='mesg' name='mesg' value='"..helper.get_string('mesg').."' maxlength='300' size='30px' placeholder='required' required/></td>"
             buf = buf.."</tr><tr><td>&nbsp;</td><td><input type='submit' value='Submit' style='height: 25px; width: 130px;'/></td>"
             buf = buf.."</table></body></html>"    
         elseif (vars ~= nil) then
-            restarting = "<html><body><h2>Button is now restarting. You may close this window.</h2></body></html>"
+            restarting = "<html><body><h2>All done! Button is now restarting. You may close this window.</h2></body></html>"
             client:send(restarting);
             client:close(); 
             if (_GET.ssid) then       
                 --save values to text file
-                helper.set_value("keyid.txt",_GET.keyid)
-                helper.set_value("eventname.txt",_GET.eventname)
+                helper.set_value("phone.txt",_GET.phone)
+                helper.set_value("mesg.txt",_GET.mesg)
                 helper.set_value("ssid.txt",_GET.ssid)
                 helper.set_value("password.txt",_GET.password)
+                helper.set_value("provider.txt",_GET.provider)
                                                              
                 print("Setting SSID: ".. _GET.ssid)
                 print("password: ".. _GET.password)
+                print("provider: ".. _GET.provider)
                 tmr.alarm(4, 7000, 0, function()
                     print("setting wifi")
                     ipcfg={}

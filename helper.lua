@@ -28,7 +28,7 @@ function get_string(name)
     if file_exists(name..".txt") then
         file.open(name..".txt", "r" )
         str = file.read()
-        str = string.gsub(str, "%s+", "")
+        str = string.gsub(str, "%s+", "%%20")
         file.close()
         print("Return String "..str)
     end 
