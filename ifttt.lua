@@ -13,7 +13,7 @@ function sendmesg ()
     conn=net.createConnection(net.TCP, 0) 
 
     phone = helper.get_string("phone") 
-    mesg = helper.get_string("mesg")
+    mesg = helper.escape(helper.get_string("mesg"))
     provider = helper.get_string("provider")
 
     if provider == 'verizon' then

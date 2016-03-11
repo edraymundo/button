@@ -23,6 +23,11 @@ function unescape (s)
    return s
 end
 
+function escape(s) 
+   s = string.gsub(s, " ", "%%20")
+   return s
+end
+
 function get_string(name)
     str = 'test123456'
     if file_exists(name..".txt") then
