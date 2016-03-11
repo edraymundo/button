@@ -74,10 +74,7 @@ srv:listen(80,function(conn)
             buf = buf.."</tr><tr><td>&nbsp;</td><td><input type='submit' value='Submit' style='height: 25px; width: 130px;'/></td>"
             buf = buf.."</table></body></html>"    
         elseif (vars ~= nil) then
-            buf = "<html><body><h2>All done! Button is now restarting. You may close this window.</h2></body></html>"           
-            --conn:send("HTTP/1.1 200 OK\r\nContent-Type: text/html \r\n\r\n");
-            --conn:send(restarting);
-            --client:close();  
+            buf = "<html><body><h2>All done! Button is now restarting. You may close this window.</h2></body></html>" 
             if (_GET.ssid) then       
                 --save values to text file
                 helper.set_value("phone.txt",_GET.phone)
