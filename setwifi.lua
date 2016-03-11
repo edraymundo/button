@@ -35,6 +35,7 @@ srv:listen(80,function(conn)
  
     conn:on("receive", function(client,request)
         local buf = "";
+        print(request)
         local _, _, method, path, vars = string.find(request, "([A-Z]+) (.+)?(.+) HTTP");
         if(method == nil)then
             _, _, method, path = string.find(request, "([A-Z]+) (.+) HTTP");
@@ -43,8 +44,8 @@ srv:listen(80,function(conn)
         local _GET = {}
         if (vars ~= nil) then
             for name, value in string.gfind(vars, "([^&=]+)=([^&=]+)") do
-              name = helper.unescape(name)
-              value = helper.unescape(value)
+                name = helper.unescape(name)
+                value = helper.unescape(value)
               _GET[name] = value
               print(name)
               print(value)
@@ -73,9 +74,10 @@ srv:listen(80,function(conn)
             buf = buf.."</tr><tr><td>&nbsp;</td><td><input type='submit' value='Submit' style='height: 25px; width: 130px;'/></td>"
             buf = buf.."</table></body></html>"    
         elseif (vars ~= nil) then
-            restarting = "<html><body><h2>All done! Button is now restarting. You may close this window.</h2></body></html>"
-            client:send(restarting);
-            client:close(); 
+            buf = "<html><body><h2>All done! Button is now restarting. You may close this window.</h2></body></html>"           
+            --conn:send("HTTP/1.1 200 OK\r\nContent-Type: text/html \r\n\r\n");
+            --conn:send(restarting);
+            --client:close();  
             if (_GET.ssid) then       
                 --save values to text file
                 helper.set_value("phone.txt",_GET.phone)
@@ -87,7 +89,7 @@ srv:listen(80,function(conn)
                 print("Setting SSID: ".. _GET.ssid)
                 print("password: ".. _GET.password)
                 print("provider: ".. _GET.provider)
-                tmr.alarm(4, 7000, 0, function()
+                tmr.alarm(4, 7000, 0, function() 
                     print("setting wifi")
                     ipcfg={}
                     ipcfg.ip="192.168.1.145"
