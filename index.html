@@ -1,0 +1,180 @@
+<html
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Call Me Button</title>
+<style>
+.basic-grey {
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 500px;
+    background: #F7F7F7;
+    padding: 25px 15px 25px 10px;
+    font: 12px Georgia, "Times New Roman", Times, serif;
+    color: #888;
+    text-shadow: 1px 1px 1px #FFF;
+    border:1px solid #E4E4E4;
+}
+.basic-grey h1 {
+    font-size: 25px;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom:1px solid #E4E4E4;
+    margin: -10px -15px 30px -10px;;
+    color: #888;
+}
+.basic-grey h1>span {
+    display: block;
+    font-size: 11px;
+}
+.basic-grey label {
+    display: block;
+    margin: 0px;
+}
+.basic-grey label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+.basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea, .basic-grey select {
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 70%;
+    font-size: 12px;
+    line-height:15px;
+    box-shadow: inset 0px 1px 4px #ECECEC;
+    -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+    -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+.basic-grey textarea{
+    padding: 5px 3px 3px 5px;
+}
+.basic-grey select {
+    background: #FFF;    
+    appearance:none;
+    -webkit-appearance:none; 
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 70%;
+    height: 35px;
+    line-height: 25px;
+}
+.basic-grey textarea{
+    height:100px;
+}
+.basic-grey .button {
+    background: #E27575;
+    border: none;
+    padding: 10px 25px 10px 25px;
+    color: #FFF;
+    box-shadow: 1px 1px 5px #B6B6B6;
+    border-radius: 3px;
+    text-shadow: 1px 1px 1px #9E3F3F;
+    cursor: pointer;
+}
+.basic-grey .button:hover {
+    background: #CF7A7A
+}
+
+.footer{
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #888;
+    font-size: 12px;
+}    
+</style>
+
+</head>
+
+<body>
+    <p>&nbsp;</p>    
+<form action="submitted.html" method="get" class="basic-grey">
+    <h1>Call Me Button Setup 
+        <span>Please fill all the texts in the fields.</span>
+    </h1>
+    <label>
+        <span>SSID :</span>
+        <input id="ssid"  type="text" name="ssid" placeholder="Your Wifi Name" required />
+    </label>
+    
+    <label>
+        <span>Wifi Password :</span>
+        <input id="password" type="text" name="password" placeholder="Wifi Pasword" required />
+    </label>
+    
+    <label>
+        <span>Phone Number :</span>
+        <input id="phone" type="text" name="phone" placeholder="Phone number ie. 4085551234" required />
+    </label>
+     <label>
+        <span>Provider :</span><select id="provider" name="provider">
+        <option value="--">Select One</option>            
+        <option value="att">AT&T</option>        
+        <option value="republic">Republic Wireless</option>
+        <option value="sprint">Sprint</option>        
+        <option value="tmobile">T-Mobile</option>
+        <option value="verizon">Verizon</option>                        
+        </select>
+    </label>
+    <label>
+        <span>Message :</span>
+        <textarea id="mesg" name="mesg" placeholder="Your Message to Send 100 max chars" maxlength="100"></textarea>
+    </label> 
+     <label>
+        <span>&nbsp;</span> 
+        <input type="submit" value="Send" /> 
+    </label>  
+</form>
+<center>
+    <p>
+    <label>
+        <span>&nbsp;</span>
+        <span class="footer">&copy;2016 Pragmatic Communications Systems, Inc. | <a href="about.html">Call Me Button</a> </span>
+    </label>
+</body>
+</html>
+
+<script>
+
+//input data
+var jsonData = {
+  ssid:'',
+  password:'',
+  phone:''
+};
+
+//pulldown data
+var selectData = {
+  provider:''
+};
+
+//textarea data
+var textareaData = {
+   mesg:''
+};   
+
+var jsonDataKeys = Object.keys(jsonData);
+var inputElements = document.getElementsByTagName('input');
+var objSelect = document.getElementById("provider");
+
+window.onload = function(){
+    for(var i=0; i<jsonDataKeys.length; i++){
+        document.getElementsByName(jsonDataKeys[i])[0].value = jsonData[jsonDataKeys[i]];
+    }
+    for (var i = 0; i < objSelect.options.length; i++) {
+        if (objSelect.options[i].value == selectData['provider']) {
+            objSelect.options[i].selected = true;
+        }
+    }
+    document.getElementById("mesg").value = textareaData['mesg'];
+}
+</script>

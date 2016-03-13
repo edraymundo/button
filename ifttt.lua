@@ -5,6 +5,17 @@ require ('helper')
 gpio.write(red,gpio.LOW)
 gpio.write(green,gpio.HIGH)
 
+function encode(str)
+  if (str) then
+    str = string.gsub (str, "\n", "\r\n")
+    str = string.gsub (str, "([^%w %-%_%.%~])",
+        function (c) return string.format ("%%%02X", string.byte(c)) end)
+    str = string.gsub (str, " ", "+")
+  end
+  return str    
+end
+
+
 function sendmesg ()
     phone = 0
     mesg = 0
@@ -13,7 +24,7 @@ function sendmesg ()
     conn=net.createConnection(net.TCP, 0) 
 
     phone = helper.get_string("phone") 
-    mesg = helper.escape(helper.get_string("mesg"))
+    mesg = encode(helper.get_string("mesg"))
     provider = helper.get_string("provider")
 
     if provider == 'verizon' then

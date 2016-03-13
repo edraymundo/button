@@ -50,8 +50,10 @@ password = helper.get_string("password")
 
 print("ssid:"..ssid)
 print("password:"..password)
-wifi.sta.config(ssid,password);
-wifi.sta.connect()
+if ssid~='' then
+    wifi.sta.config(ssid,password);
+    wifi.sta.connect()
+end
 
 gpio.trig(ap_button, "both", debounce(onChange))
 

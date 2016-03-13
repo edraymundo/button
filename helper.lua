@@ -14,14 +14,6 @@ function file_exists(name)
    fileresult=file.open(name,"r")
    if fileresult~=nil then file.close(fileresult) return true else return false end
 end
-
-function unescape (s)
-   s = string.gsub(s, "+", " ")
-   --s = string.gsub(s, "%%(%x%x)", function (h)
-     --    return string.char(tonumber(h, 16))
-      -- end)
-   return s
-end
  
 function escape(s) 
    s = string.gsub(s, " ", "%%20")
@@ -29,11 +21,14 @@ function escape(s)
 end
 
 function get_string(name)
-    str = 'test123456'
+    str = ''
     if file_exists(name..".txt") then
         file.open(name..".txt", "r" )
         str = file.read()
-        str = string.gsub(str, "%s+", " ")
+        if str~=nil then
+            str = string.gsub(str, "%s+", " ") 
+            str = string.gsub(str, "%%", "%%")     
+        end    
         file.close()
         print("Return String "..str)
     end 
@@ -41,6 +36,7 @@ function get_string(name)
 end
 
 function set_value(filename,getvalue)
+       print("Set string:"..getvalue)
        file.remove(filename)
        tmr.delay(2000)
        file.open(filename, "w")
