@@ -33,6 +33,10 @@ function sendmesg ()
         phone = phone.."@tmomail.net" 
     elseif provider == 'att' then
         phone = phone.."@txt.att.net"
+    elseif provider == 'republic' then
+        phone = phone.."@text.republicwireless.com"
+    elseif provider == 'sprint' then
+        phone = phone.."@messaging.sprintpcs.com"        
     end       
   
     conn:on("connection", function(conn, payload) 
