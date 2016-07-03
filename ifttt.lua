@@ -40,9 +40,9 @@ function sendmesg ()
     end       
   
     conn:on("connection", function(conn, payload) 
-         conn:send("GET /test.php?phone="..phone.."&mesg="..mesg.."&code=bahay0210"
+         conn:send("GET /button/mail.php?phone="..phone.."&mesg="..mesg.."&code=bahay0210"
          .." HTTP/1.1\r\n" 
-         .."Host: edraymundo.com\r\n"
+         .."Host: wireless-experts.com\r\n"
          .."Accept: */*\r\n" 
          .."User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" 
          .."\r\n")     
