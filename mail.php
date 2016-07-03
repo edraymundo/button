@@ -2,7 +2,7 @@
 
 echo "sending mail";
 
-$from = "button@edraymundo.com";
+$from = "button@pragmatic1.com";
 $to = $_REQUEST['phone'];
 $mesg = $_REQUEST['mesg'];
 
