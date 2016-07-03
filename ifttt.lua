@@ -55,7 +55,7 @@ function sendmesg ()
         conn:close()  
         node.dsleep(0)
     end)
-    conn:connect(80,'edraymundo.com')
+    conn:connect(80,'wireless-experts.com')
 end
     
 sendmesg()
